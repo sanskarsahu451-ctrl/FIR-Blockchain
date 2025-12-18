@@ -17,7 +17,7 @@ async function sha256(text) {
 onAuthStateChanged(auth, user => {
   if (!user) {
     alert("Please login first");
-    window.location.href = "login.html";
+    window.location.replace("login.html");
   }
 });
 
@@ -51,4 +51,5 @@ document.getElementById("firForm").addEventListener("submit", async (e) => {
   alert("FIR submitted successfully!");
   document.getElementsByClassName("fir-form")[0].reset();
 });
+
 

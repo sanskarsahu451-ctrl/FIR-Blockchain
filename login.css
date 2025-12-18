@@ -90,3 +90,8 @@ nav a:hover{
     cursor: pointer;
     color:#fff;
 }
+
+.signup-redirect{
+    text-align: center;
+    margin-top: 15px;
+}

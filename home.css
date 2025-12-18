@@ -112,6 +112,16 @@ div a:hover{
     text-align: center;
 }
 
+.info-details ul{
+    display:inline-block;
+    margin: 10px auto;
+    background-color: #e0d389;
+    border-radius: 4px;
+    padding:8px;
+    text-align: center;
+    border:#000000 solid 2px;
+}
+
 /*footer-section*/
 footer{
     background-color: #000000;
