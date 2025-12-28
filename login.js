@@ -36,5 +36,5 @@ import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/1
 			  // An error happened.
 			  console.log('An error happened.');
 			});		  		  
-	  });
+	});
 	  //----- End

@@ -39,6 +39,22 @@ document.getElementById("firForm").addEventListener("submit", async (e) => {
     status: "Submitted"
   };
 
+  // ✅ Generate simple FIR ID
+const now = new Date();
+
+const date =
+  now.getFullYear().toString() +
+  String(now.getMonth() + 1).padStart(2, "0") +
+  String(now.getDate()).padStart(2, "0");
+
+const time =
+  String(now.getHours()).padStart(2, "0") +
+  String(now.getMinutes()).padStart(2, "0") +
+  String(now.getSeconds()).padStart(2, "0");
+
+const firId = `FIR-${date}-${time}`;
+
+
   // 5️⃣ GENERATE HASH HERE
   const hash = await sha256(JSON.stringify(firData));
 

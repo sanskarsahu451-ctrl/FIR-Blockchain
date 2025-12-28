@@ -49,3 +49,85 @@ nav{
 nav a:hover{
     background: #c1a60f;
 }
+
+/*Main-section*/
+
+body {
+  background-color: #f4f6f8;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+}
+
+.search-box button {
+  padding: 12px 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.search-box button:hover {
+  background-color: #155fa0;
+}
+
+.fir-card {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.fir-card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.label {
+  width: 150px;
+  font-weight: bold;
+}
+
+.status {
+  font-weight: bold;
+  color: #d97706;
+}
+
+.hidden {
+  display: none;
+}
