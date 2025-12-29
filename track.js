@@ -1,16 +1,25 @@
-import { auth } from "./firebaseconfig.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-import { db } from "./firebaseconfig.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+import { db, auth } from "./firebaseconfig.js";
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-//Authentication check
+/* --------------------------------------------------
+   AUTH CHECK
+-------------------------------------------------- */
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Please login first");
-    window.location.href = "login.html";
+    window.location.replace("login.html");
   }
 });
 
+/* --------------------------------------------------
+   TRACK FIR
+-------------------------------------------------- */
 window.trackFIR = async function () {
 
   const firIdInput = document.getElementById("firIdInput").value.trim();
@@ -28,18 +37,18 @@ window.trackFIR = async function () {
     return;
   }
 
-  const data = firSnap.data();
+  const firDoc = firSnap.data();
+  const data = firDoc.data;
 
-  // 🔹 Fill dynamic data
-  document.getElementById("firId").innerText = data.firId;
+  /* 🔹 Fill dynamic data */
+  document.getElementById("firId").innerText = firDoc.firId;
   document.getElementById("status").innerText = data.status;
   document.getElementById("officer").innerText =
     data.assignedOfficer || "Not assigned";
   document.getElementById("remarks").innerText =
-    data.remarks || "No remarks yet";
+    data.description || "No remarks yet";
   document.getElementById("location").innerText = data.location;
 
-  // 🔹 Show the card
+  /* 🔹 Show the card */
   document.getElementById("firCard").classList.remove("hidden");
 };
-

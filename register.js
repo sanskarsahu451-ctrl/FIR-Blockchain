@@ -1,10 +1,19 @@
-import { app } from "./firebaseconfig.js";
-import { db, auth } from "./firebaseconfig.js";
-import { addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-// Reference to the "users" collection in Firestore
+/* --------------------------------------------------
+   FIREBASE IMPORTS
+-------------------------------------------------- */
+import { app, db, auth } from "./firebaseconfig.js";
+import {
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-// 2️⃣ SHA-256 FUNCTION (WRITE IT HERE)
+/* --------------------------------------------------
+   SHA-256 HASH FUNCTION
+-------------------------------------------------- */
 async function sha256(text) {
   const encoded = new TextEncoder().encode(text);
   const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
@@ -13,21 +22,38 @@ async function sha256(text) {
     .join("");
 }
 
-// 3️⃣ AUTH CHECK (OPTIONAL BUT RECOMMENDED)
-onAuthStateChanged(auth, user => {
+/* --------------------------------------------------
+   AUTH CHECK
+-------------------------------------------------- */
+onAuthStateChanged(auth, (user) => {
   if (!user) {
-    alert("Please login first");
+    alert("Please login first.");
     window.location.replace("login.html");
   }
 });
 
-// 4️⃣ FORM SUBMISSION LOGIC
-document.getElementById("firForm").addEventListener("submit", async (e) => {
+/* --------------------------------------------------
+   FORM HANDLING
+-------------------------------------------------- */
+const firForm = document.getElementById("firForm");
+
+if (!firForm) {
+  console.error("FIR form not found. Check form ID.");
+}
+
+/* --------------------------------------------------
+   SUBMIT EVENT
+-------------------------------------------------- */
+firForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const user = auth.currentUser;
-  if (!user) return;
+  if (!user) {
+    alert("Authentication error. Please login again.");
+    return;
+  }
 
+  /* 🔹 Collect FIR data */
   const firData = {
     userId: user.uid,
     name: document.getElementById("complaintant-name").value,
@@ -35,37 +61,52 @@ document.getElementById("firForm").addEventListener("submit", async (e) => {
     date: document.getElementById("incident-date").value,
     time: document.getElementById("incident-time").value,
     description: document.getElementById("description").value,
-    createdAt: serverTimestamp(),
-    status: "Submitted"
+    status: "Submitted",
+    createdAt: serverTimestamp()
   };
 
-  // ✅ Generate simple FIR ID
-const now = new Date();
+  /* 🔹 Generate FIR ID */
+  const now = new Date();
 
-const date =
-  now.getFullYear().toString() +
-  String(now.getMonth() + 1).padStart(2, "0") +
-  String(now.getDate()).padStart(2, "0");
+  const date =
+    now.getFullYear().toString() +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    String(now.getDate()).padStart(2, "0");
 
-const time =
-  String(now.getHours()).padStart(2, "0") +
-  String(now.getMinutes()).padStart(2, "0") +
-  String(now.getSeconds()).padStart(2, "0");
+  const time =
+    String(now.getHours()).padStart(2, "0") +
+    String(now.getMinutes()).padStart(2, "0") +
+    String(now.getSeconds()).padStart(2, "0");
 
-const firId = `FIR-${date}-${time}`;
+  const firId = `FIR-${date}-${time}`;
 
+  /* 🔹 Generate hash (includes FIR ID) */
+  const hash = await sha256(JSON.stringify({ firId, ...firData }));
 
-  // 5️⃣ GENERATE HASH HERE
-  const hash = await sha256(JSON.stringify(firData));
+  /* --------------------------------------------------
+     SAVE TO FIRESTORE (FIR ID AS DOCUMENT ID)
+  -------------------------------------------------- */
+  try {
+    await setDoc(doc(db, "firs", firId), {
+      firId: firId,
+      data: firData,
+      sha256: hash
+    });
 
-  // 6️⃣ SAVE TO FIRESTORE
-  await addDoc(collection(db, "firCollection"), {
-    data: firData,
-    sha256: hash
-  });
+    /* 🔹 Show FIR ID */
+    document.getElementById("firIdOutput").innerText = firId;
 
-  alert("FIR submitted successfully!");
-  document.getElementsByClassName("fir-form")[0].reset();
+    /* 🔹 Success alert */
+    alert(
+      `FIR submitted successfully!\n\n` +
+      `Your FIR ID is:\n${firId}\n\n` +
+      `Please keep this ID for future reference.`
+    );
+
+    firForm.reset();
+
+  } catch (error) {
+    console.error("Firestore Error:", error);
+    alert("Failed to submit FIR. Please try again.");
+  }
 });
-
-

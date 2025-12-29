@@ -34,7 +34,7 @@
 
         <!--FIR registration form-->
         <section class="form-section">
-        <form class="fir-form">
+        <form id="firForm" class="fir-form">
             <h2 class="fir-form-heading">Register FIR</h2>
             <label for="complaintant-name">Complaintant Name:</label>
             <input type="text" id="complaintant-name" name="complaintant-name" required>
@@ -65,6 +65,9 @@
             </div>
         </form>
         </section>
+
+        <p>Your FIR ID: <b id="firIdOutput"></b></p>
+
 
 
         <script type="module" src="./register.js"></script>
