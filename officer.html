@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="officer.css">
+</head>
+<body>
+    <!--header-section-->
+    <header>
+        <div class="header-content">
+
+        <!--logo-section-->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Ministry_of_Home_Affairs_India.svg/1200px-Ministry_of_Home_Affairs_India.svg.png" 
+            alt="logo" class="logo" \>
+
+            <h1 class="header-text">
+                First Information Report Portal
+            </h1>
+        </div>
+        <!--navigation bar-->
+         <nav>
+
+            <ul>
+                <a href="home.html" class="nav-links">Home</a>
+                <a href="login.html" class="nav-links">Login/Logout</a>
+                <a href="signup.html" class="nav-links">Sign Up</a>
+                <a href="register.html" class="nav-links">Register Complaint</a>
+                <a href="guidelines.html" class="nav-links">Guidelines</a>
+                <a href="about.html" class="nav-links">About Us</a>
+            </ul>
+        </nav>
+    </header>
+
+    <!DOCTYPE html>
+
+<body>
+
+  <div class="container">
+
+    <h1>FIR Tracking Portal</h1>
+    <p class="subtitle">Track your case using your FIR ID</p>
+
+    <!-- Search Section -->
+    <div class="search-box">
+      <input
+        type="text"
+        id="firIdInput"
+        placeholder="Enter FIR ID (e.g. FIR-20250928-143210)">
+      <button onclick="trackFIR()">Update FIR</button>
+    </div>
+
+    <!-- Dynamic FIR Details -->
+    <div id="firCard" class="fir-card hidden">
+
+      <h2>Case Details</h2>
+
+      <div class="row">
+        <span class="label">FIR ID:</span>
+        <span id="firId"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">Status:</span>
+        <span id="status" class="status"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">Assigned Officer:</span>
+        <span id="officer"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">Location:</span>
+        <span id="location"></span>
+      </div>
+
+      <div class="row">
+        <span class="label">Remarks:</span>
+        <span id="remarks"></span>
+      </div>
+
+    </div>
+
+  </div>
+
+    <script type="module" src="officer.js"></script>
+</body>
+</html>
