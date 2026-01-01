@@ -37,53 +37,39 @@
 
 <body>
 
-  <div class="container">
+ <!-- Main -->
+<main class="main-container">
+  <div class="update-card">
+    <h2>Officer FIR Update Portal</h2>
+    <p class="subtitle">Update FIR status and investigation remarks</p>
 
-    <h1>FIR Tracking Portal</h1>
-    <p class="subtitle">Track your case using your FIR ID</p>
-
-    <!-- Search Section -->
-    <div class="search-box">
-      <input
-        type="text"
-        id="firIdInput"
+    <div class="row">
+      <label class="label">FIR ID</label>
+      <input type="text" id="firIdInput"
         placeholder="Enter FIR ID (e.g. FIR-20250928-143210)">
-      <button onclick="trackFIR()">Update FIR</button>
     </div>
 
-    <!-- Dynamic FIR Details -->
-    <div id="firCard" class="fir-card hidden">
-
-      <h2>Case Details</h2>
-
-      <div class="row">
-        <span class="label">FIR ID:</span>
-        <span id="firId"></span>
-      </div>
-
-      <div class="row">
-        <span class="label">Status:</span>
-        <span id="status" class="status"></span>
-      </div>
-
-      <div class="row">
-        <span class="label">Assigned Officer:</span>
-        <span id="officer"></span>
-      </div>
-
-      <div class="row">
-        <span class="label">Location:</span>
-        <span id="location"></span>
-      </div>
-
-      <div class="row">
-        <span class="label">Remarks:</span>
-        <span id="remarks"></span>
-      </div>
-
+    <div class="row">
+      <label class="label">New Status</label>
+      <select id="newStatus">
+        <option value="Submitted">Submitted</option>
+        <option value="Under Investigation">Under Investigation</option>
+        <option value="Resolved">Resolved</option>
+      </select>
     </div>
 
+    <div class="row">
+      <label class="label">Remarks</label>
+      <textarea id="newRemarks"
+        rows="4"
+        placeholder="Enter official remarks"></textarea>
+    </div>
+
+    <button class="update-btn" onclick="updateFIR()">
+      Submit Update
+    </button>
   </div>
+</main>
 
     <script type="module" src="officer.js"></script>
 </body>
