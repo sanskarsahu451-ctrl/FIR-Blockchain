@@ -58,6 +58,7 @@ firForm.addEventListener("submit", async (e) => {
     userId: user.uid,
     name: document.getElementById("complaintant-name").value,
     location: document.getElementById("incident-location").value,
+    crime: document.getElementById("crime-type").value,
     date: document.getElementById("incident-date").value,
     time: document.getElementById("incident-time").value,
     description: document.getElementById("description").value,
