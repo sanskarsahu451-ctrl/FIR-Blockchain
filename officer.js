@@ -27,7 +27,7 @@ window.updateFIR = async function () {
 
   const firId = document.getElementById("firId").value.trim();
   const status = document.getElementById("status").value;
-  const remarks = document.getElementById("remarks").value;
+  const remarks = document.getElementById("description").value;
 
   if (!firId) {
     alert("Enter FIR ID");

@@ -49,3 +49,43 @@ nav{
 nav a:hover{
     background: #c1a60f;
 }
+
+/* DASHBOARD GRID */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+/* CARD */
+.card {
+  background: #020617;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card h2 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #38bdf8;
+}
+
+/* CANVAS */
+canvas {
+  width: 100%;
+  height: 280px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .header h1 {
+    font-size: 1.4rem;
+  }
+}

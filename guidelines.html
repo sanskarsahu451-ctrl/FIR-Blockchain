@@ -4,10 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="ca.css">
+
+    <style>
+        *{
+    background-color: #f5f5f5;
+    color: #000000;
+    font-family: 'Poppins', sans-serif;
+}
+
+/*header-section*/
+header{
+    background-color: #f5f5f5;
+    overflow: hidden;
+    border-top: 30px solid #000000;
+}
+
+.header-content{
+ display: flex;
+ margin-left: 40px;
+}
+
+.logo{
+    height:50px;
+    width: 120px;
+    margin: 20px;
+    border-radius: 5px;
+    padding:5px;
+}
+
+.header-text{
+    margin-top: 30px ;
+    background: transparent;
+    text-align: center;
+    color:#000000;
+}
+
+/*Navigation-bar*/
+nav{
+    display: flex;
+    float: left;
+}
+
+.nav-links{
+    text-decoration: none;
+    margin:20px;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+nav a:hover{
+    background: #c1a60f;
+}
+    </style>
 </head>
 <body>
-    <!--header-section-->
+     <!--header-section-->
     <header>
         <div class="header-content">
 
@@ -31,31 +84,5 @@
                 <a href="about.html" class="nav-links">About Us</a>
             </ul>
         </nav>
-
-        <main class="dashboard">
-
-    <section class="card">
-      <h2>Crimes by Type</h2>
-      <canvas id="crimeTypeChart"></canvas>
-    </section>
-
-    <section class="card">
-      <h2>Crimes by Location</h2>
-      <canvas id="locationChart"></canvas>
-    </section>
-
-    <section class="card">
-      <h2>Monthly Crime Trend</h2>
-      <canvas id="trendChart"></canvas>
-    </section>
-
-    <section class="card">
-      <h2>Case Status Distribution</h2>
-      <canvas id="statusChart"></canvas>
-    </section>
-
-  </main>
-
-        <script type="module" src="ca.js"></script>
 </body>
 </html>
