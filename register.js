@@ -42,6 +42,70 @@ if (!firForm) {
 }
 
 /* --------------------------------------------------
+   OPENSTREETMAP + LEAFLET (REPLACES GOOGLE MAPS)
+-------------------------------------------------- */
+let map, marker;
+
+// Initialize map
+function initMap() {
+  const defaultLatLng = [28.6139, 77.2090]; // Delhi
+
+  map = L.map("map").setView(defaultLatLng, 10);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors"
+  }).addTo(map);
+
+  marker = L.marker(defaultLatLng, {
+    draggable: true
+  }).addTo(map);
+
+  // Save coords when marker is dragged
+  marker.on("dragend", () => {
+    const pos = marker.getLatLng();
+    setLocation(pos.lat, pos.lng);
+  });
+}
+
+// Convert text location → lat/lng (FREE GEOCODING)
+async function geocodeLocation(place) {
+  if (!place) return;
+
+  const res = await fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`
+  );
+
+  const data = await res.json();
+  if (!data.length) {
+    alert("Location not found");
+    return;
+  }
+
+  const lat = parseFloat(data[0].lat);
+  const lng = parseFloat(data[0].lon);
+
+  map.setView([lat, lng], 14);
+  marker.setLatLng([lat, lng]);
+  setLocation(lat, lng);
+}
+
+// Save coordinates to hidden inputs
+function setLocation(lat, lng) {
+  document.getElementById("lat").value = lat;
+  document.getElementById("lng").value = lng;
+}
+
+// Trigger geocoding when location input changes
+document
+  .getElementById("incident-location")
+  .addEventListener("change", (e) => {
+    geocodeLocation(e.target.value);
+  });
+
+// Initialize map after page load
+window.addEventListener("load", initMap);
+
+/* --------------------------------------------------
    SUBMIT EVENT
 -------------------------------------------------- */
 firForm.addEventListener("submit", async (e) => {
@@ -58,6 +122,10 @@ firForm.addEventListener("submit", async (e) => {
     userId: user.uid,
     name: document.getElementById("complaintant-name").value,
     location: document.getElementById("incident-location").value,
+    coordinates: {
+      lat: parseFloat(document.getElementById("lat").value),
+      lng: parseFloat(document.getElementById("lng").value)
+    },
     crime: document.getElementById("crime-type").value,
     date: document.getElementById("incident-date").value,
     time: document.getElementById("incident-time").value,
@@ -81,23 +149,21 @@ firForm.addEventListener("submit", async (e) => {
 
   const firId = `FIR-${date}-${time}`;
 
-  /* 🔹 Generate hash (includes FIR ID) */
+  /* 🔹 Generate hash */
   const hash = await sha256(JSON.stringify({ firId, ...firData }));
 
   /* --------------------------------------------------
-     SAVE TO FIRESTORE (FIR ID AS DOCUMENT ID)
+     SAVE TO FIRESTORE
   -------------------------------------------------- */
   try {
     await setDoc(doc(db, "firs", firId), {
-      firId: firId,
+      firId,
       data: firData,
       sha256: hash
     });
 
-    /* 🔹 Show FIR ID */
     document.getElementById("firIdOutput").innerText = firId;
 
-    /* 🔹 Success alert */
     alert(
       `FIR submitted successfully!\n\n` +
       `Your FIR ID is:\n${firId}\n\n` +

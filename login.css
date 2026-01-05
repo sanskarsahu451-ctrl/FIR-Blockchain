@@ -65,7 +65,7 @@ nav a:hover{
     color: #c1a60f;
 }
 
-#login-form input , #login-form button{
+#login-form input , #login-form button, .logout{
     display: flex;
     flex-direction: column;
     margin:20px;
@@ -94,4 +94,26 @@ nav a:hover{
 .signup-redirect{
     text-align: center;
     margin-top: 15px;
+}
+
+.breaker{
+    align-items: center;
+    border-bottom: 1px solid #DADDE1;
+    display: flex;
+    margin: 20px 16px;
+    text-align: center;
+}
+
+.logout{
+    display:flex;
+    text-align: center;
+    width: 250px;
+    padding: 10px;
+    background-color: #ffffff;
+    color:#c1a60f;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight:bold;
 }

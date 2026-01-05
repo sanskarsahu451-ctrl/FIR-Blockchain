@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="ca.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
 </head>
 <body>
     <!--header-section-->
@@ -32,30 +34,12 @@
             </ul>
         </nav>
 
-        <main class="dashboard">
+        <h2>📍 Crime Locations</h2>
+        <div class="map-container">
+        <div id="crimeMap"></div>
+        </div>
 
-    <section class="card">
-      <h2>Crimes by Type</h2>
-      <canvas id="crimeTypeChart"></canvas>
-    </section>
-
-    <section class="card">
-      <h2>Crimes by Location</h2>
-      <canvas id="locationChart"></canvas>
-    </section>
-
-    <section class="card">
-      <h2>Monthly Crime Trend</h2>
-      <canvas id="trendChart"></canvas>
-    </section>
-
-    <section class="card">
-      <h2>Case Status Distribution</h2>
-      <canvas id="statusChart"></canvas>
-    </section>
-
-  </main>
-
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script type="module" src="ca.js"></script>
 </body>
 </html>

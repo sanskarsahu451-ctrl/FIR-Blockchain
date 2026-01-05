@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="register.css">
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <title>Document</title>
 </head>
 <body>
@@ -82,8 +83,14 @@
             </div>
             </div>
 
+           
             <label for="incident-location">Incident Location:</label>
-            <input type="text" id="incident-location" name="incident-location" required>
+            <input type="text" id="incident-location" name="incident-location" required \>
+
+            <div id="map"></div>
+            <input type="hidden" id="lat">
+            <input type="hidden" id="lng">
+            
 
             <label for="description">Description:</label>
             <textarea id="description" name="description"></textarea>
@@ -97,7 +104,9 @@
         <p>Your FIR ID: <b id="firIdOutput"></b></p>
 
 
-
+        <!-- Leaflet JS -->
+         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+         
         <script type="module" src="./register.js"></script>
 </body>
 </html>
