@@ -54,11 +54,12 @@ nav a:hover{
 
 /* Main Container */
 .main-container {
-  height: calc(100vh - 140px);
+  height: calc(100vh - 80px);
   display: flex;
   justify-content: center;
   align-items: center;
   background: #f5f6f7;
+  
 }
 
 /* Update Card */

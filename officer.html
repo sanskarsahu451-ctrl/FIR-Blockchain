@@ -45,13 +45,13 @@
 
     <div class="row">
       <label class="label">FIR ID</label>
-      <input type="text" id="firIdInput"
+      <input type="text" id="firId"
         placeholder="Enter FIR ID (e.g. FIR-20250928-143210)">
     </div>
 
     <div class="row">
       <label class="label">New Status</label>
-      <select id="newStatus">
+      <select id="status">
         <option value="Submitted">Submitted</option>
         <option value="Under Investigation">Under Investigation</option>
         <option value="Resolved">Resolved</option>
@@ -59,8 +59,13 @@
     </div>
 
     <div class="row">
+      <label class="label">Assigned Officer</label>
+      <textarea id="AssignOfficer"></textarea>
+    </div>
+
+    <div class="row">
       <label class="label">Remarks</label>
-      <textarea id="newRemarks"
+      <textarea id="description"
         rows="4"
         placeholder="Enter official remarks"></textarea>
     </div>

@@ -25,6 +25,40 @@ import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/1
 	  });
 	  //----- End of Login code
 
+	  document.getElementById("metamaskLogin").addEventListener("click", loginWithMetaMask);
+
+	  async function loginWithMetaMask() {
+  if (!window.ethereum) {
+    alert("MetaMask not installed");
+    return;
+  }
+
+  const accounts = await ethereum.request({
+    method: "eth_requestAccounts"
+  });
+
+  const walletAddress = accounts[0];
+
+  const message = `Login to FIR Portal at ${new Date().toISOString()}`;
+
+  const signature = await ethereum.request({
+    method: "personal_sign",
+    params: [message, walletAddress]
+  });
+
+  // Store proof in Firestore
+  await setDoc(doc(db, "walletUsers", walletAddress), {
+    wallet: walletAddress,
+    signature,
+    message,
+    linkedAt: serverTimestamp()
+  });
+
+  alert("MetaMask verified successfully");
+}
+
+
+
 	  //----- Logout code start	  
 	  document.getElementById("logout").addEventListener("submit", function() {
 		  signOut(auth).then(() => {
