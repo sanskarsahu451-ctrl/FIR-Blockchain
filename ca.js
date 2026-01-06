@@ -2,13 +2,11 @@ import {
   collection,
   getDocs
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
 import { db } from "./firebaseconfig.js";
 
 let map;
 
 document.addEventListener("DOMContentLoaded", () => {
-
   map = L.map("crimeMap").setView([28.6139, 77.2090], 6);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -27,23 +25,23 @@ async function loadCrimeLocations() {
     const snapshot = await getDocs(collection(db, "firs"));
     console.log("FIR count:", snapshot.size);
 
-    snapshot.docs.forEach(doc => {
-      const fir = doc.data();
-      console.log("FIR:", fir);
+    snapshot.forEach(docSnap => {
+      const fir = docSnap.data();
+      const firId = docSnap.id;
 
       const coords = fir.data?.coordinates;
       if (!coords) return;
 
-      L.marker([coords.lat, coords.lng])
-        .addTo(map)
-        .bindPopup(
-          `<b>FIR ID:</b> ${fir.firId}<br>
-           <b>Location:</b> ${fir.data.location}<br>
-           <b>Status:</b> ${fir.data.status}`
-        );
+      L.marker([coords.lat, coords.lng]).addTo(map).bindPopup(`
+          <b>FIR ID:</b> ${firId}<br>
+          <b>Location:</b> ${fir.data.location}<br>
+          <b>Crime:</b> ${fir.data.crime}<br>
+          <b>Status:</b> ${fir.status}<br>
+          <b>Total Updates:</b> ${fir.updateCount || 0}
+        `);
     });
+
   } catch (err) {
-    console.error("Firestore error:", err);
+    console.error("Error loading FIRs:", err);
   }
 }
-

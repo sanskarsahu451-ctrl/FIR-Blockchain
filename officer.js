@@ -7,6 +7,7 @@ import {
   getDoc,
   updateDoc,
   addDoc,
+  setDoc,
   collection,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
@@ -96,7 +97,10 @@ window.updateFIR = async function () {
     /* --------------------------------------------------
        4️⃣ Store update block (APPEND ONLY)
     -------------------------------------------------- */
-    await addDoc(collection(db, "fir_updates"), {
+
+    const updateId = `${firId}_BLOCK_${blockNumber}`;
+
+    await setDoc(doc(db, "fir_updates", updateId), {
       firId,
       blockNumber,
       updateData,
