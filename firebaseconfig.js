@@ -20,6 +20,7 @@
   };  
 
   // Initialize Firebase
+  //export is used to make these variables accessible in other modules
   export const app = initializeApp(firebaseConfig);
   export const analytics = getAnalytics(app);
   export const auth = getAuth(app);

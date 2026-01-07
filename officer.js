@@ -13,9 +13,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-/* --------------------------------------------------
-   SHA-256 (BROWSER SAFE)
--------------------------------------------------- */
+/*SHA-256 (BROWSER SAFE)*/
 async function sha256(text) {
   const encoder = new TextEncoder();
   const data = encoder.encode(text);
@@ -25,32 +23,29 @@ async function sha256(text) {
     .join("");
 }
 
-/* --------------------------------------------------
-   AUTH CHECK (OFFICER ONLY)
--------------------------------------------------- */
-onAuthStateChanged(auth, (user) => {
+/*AUTH CHECK (OFFICER ONLY)*/
+onAuthStateChanged(auth, (user) => {//arrow function to check authentication state
   if (!user) {
     alert("Unauthorized access");
-    window.location.href = "login.html";
+    window.location.href = "login.html";//redirect to login if not authenticated
   }
 });
 
-/* --------------------------------------------------
-   UPDATE FIR (BLOCKCHAIN STYLE)
--------------------------------------------------- */
-window.updateFIR = async function () {
+/*UPDATE FIR (BLOCKCHAIN STYLE)*/
+window.updateFIR = async function () {//global function to update FIR
   try {
-    /* 🔹 Read form values */
+    /*Read form values */
     const firIdEl = document.getElementById("firId");
     const statusEl = document.getElementById("status");
     const officerEl = document.getElementById("AssignOfficer");
     const remarksEl = document.getElementById("description");
 
-    if (!firIdEl || !statusEl || !officerEl || !remarksEl) {
+    if (!firIdEl || !statusEl || !officerEl || !remarksEl) {//to chcek if element is missing or not
       alert("Form fields missing (check HTML IDs)");
       return;
     }
 
+    //trimming the values
     const firId = firIdEl.value.trim();
     const status = statusEl.value;
     const assignedOfficer = officerEl.value.trim();
@@ -61,10 +56,8 @@ window.updateFIR = async function () {
       return;
     }
 
-    /* --------------------------------------------------
-       1️⃣ Fetch FIR (HEAD BLOCK)
-    -------------------------------------------------- */
-    const firRef = doc(db, "firs", firId);
+    /*Fetch FIR (HEAD BLOCK)*/
+    const firRef = doc(db, "firs", firId);//refrence to the FIR in firestore database
     const firSnap = await getDoc(firRef);
 
     if (!firSnap.exists()) {
@@ -74,12 +67,10 @@ window.updateFIR = async function () {
 
     const fir = firSnap.data();
 
-    const previousHash = fir.latestHash || fir.sha256 || "GENESIS";
-    const blockNumber = (fir.updateCount || 0) + 1;
+    const previousHash = fir.latestHash || fir.sha256 || "GENESIS";//getting the previous hash
+    const blockNumber = (fir.updateCount || 0) + 1;//incrementing the block number
 
-    /* --------------------------------------------------
-       2️⃣ Create update payload
-    -------------------------------------------------- */
+    /*Create update payload*/
     const updateData = {
       status,
       remarks,
@@ -87,20 +78,17 @@ window.updateFIR = async function () {
       updatedByEmail: auth.currentUser.email
     };
 
-    /* --------------------------------------------------
-       3️⃣ Generate chained hash
-    -------------------------------------------------- */
+    /*Generate chained hash*/
     const currentHash = await sha256(
       JSON.stringify(updateData) + previousHash
+      //chain the previous hash to the current update data
     );
 
-    /* --------------------------------------------------
-       4️⃣ Store update block (APPEND ONLY)
-    -------------------------------------------------- */
+    /*Store update block (APPEND ONLY)*/
 
-    const updateId = `${firId}_BLOCK_${blockNumber}`;
+    const updateId = `${firId}_BLOCK_${blockNumber}`;//generating a unique id for the update block
 
-    await setDoc(doc(db, "fir_updates", updateId), {
+    await setDoc(doc(db, "fir_updates", updateId), {//storing the update block in firestore
       firId,
       blockNumber,
       updateData,
@@ -110,9 +98,7 @@ window.updateFIR = async function () {
       createdAt: serverTimestamp()
     });
 
-    /* --------------------------------------------------
-       5️⃣ Update FIR HEAD (POINTER)
-    -------------------------------------------------- */
+    /*Update FIR HEAD (POINTER)*/
     await updateDoc(firRef, {
       status,
       latestHash: currentHash,
@@ -120,9 +106,9 @@ window.updateFIR = async function () {
       lastUpdatedAt: serverTimestamp()
     });
 
-    alert(`FIR updated successfully\nBlock #${blockNumber} added`);
+    alert(`FIR updated successfully\nBlock #${blockNumber} added`);//alert to display success and block number
 
-  } catch (error) {
+  } catch (error) {//catching any error during the update process
     console.error("FIR Update Error:", error);
     alert("Update failed. Check console for details.");
   }

@@ -7,13 +7,13 @@ import { db } from "./firebaseconfig.js";
 let map;
 
 document.addEventListener("DOMContentLoaded", () => {
-  map = L.map("crimeMap").setView([28.6139, 77.2090], 6);
+  map = L.map("crimeMap").setView([28.6139, 77.2090], 6);//sets initial view to Delhi
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "© OpenStreetMap contributors"
   }).addTo(map);
 
-  setTimeout(() => {
+  setTimeout(() => {//setTimeot() is used to adjuest map size after a short delay
     map.invalidateSize();
   }, 200);
 
@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadCrimeLocations() {
   try {
-    const snapshot = await getDocs(collection(db, "firs"));
+    const snapshot = await getDocs(collection(db, "firs"));//gets all FIR attributes from firestore
     console.log("FIR count:", snapshot.size);
 
-    snapshot.forEach(docSnap => {
+    snapshot.forEach(docSnap => {//iterates through each FIR document
       const fir = docSnap.data();
       const firId = docSnap.id;
 
