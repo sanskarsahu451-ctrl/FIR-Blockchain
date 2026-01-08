@@ -49,3 +49,43 @@ nav{
 nav a:hover{
     background: #c1a60f;
 }
+
+/* Main container */
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 15px 40px;
+}
+
+.container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #c1a60f;
+}
+
+/* Cards */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: #000000;
+}
+
+.card h2 {
+  margin-bottom: 10px;
+  color: #c1a60f;
+}
+
+.card p {
+  line-height: 1.6;
+}
+
+.card ul {
+  padding-left: 20px;
+}
+
+.card ul li {
+  margin-bottom: 6px;
+}
