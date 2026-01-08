@@ -29,7 +29,7 @@ async function loadCrimeLocations() {
       const fir = docSnap.data();
       const firId = docSnap.id;
 
-      const coords = fir.data?.coordinates;
+      const coords = fir.data?.coordinates;//checks if coordinates exist
       if (!coords) return;
 
       L.marker([coords.lat, coords.lng]).addTo(map).bindPopup(`
@@ -41,7 +41,7 @@ async function loadCrimeLocations() {
         `);
     });
 
-  } catch (err) {
+  } catch (err) {//used to catch error and print in console
     console.error("Error loading FIRs:", err);
   }
 }

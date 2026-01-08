@@ -12,9 +12,7 @@ import {
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-/* --------------------------------------------------
-   AUTH CHECK
--------------------------------------------------- */
+/* AUTH CHECK */
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     alert("Please login first");

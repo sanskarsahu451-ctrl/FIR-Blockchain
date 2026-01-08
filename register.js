@@ -65,15 +65,15 @@ function initMap() {
   });
 }
 
-// Convert text location → lat/lng (FREE GEOCODING)
+// Convert text location → lat/lng 
 async function geocodeLocation(place) {
   if (!place) return;
 
-  const res = await fetch(
+  const res = await fetch(//used to fetch geocoding data from nominatim API
     `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`
   );
 
-  const data = await res.json();
+  const data = await res.json();//parses the response as JSON
   if (!data.length) {
     alert("Location not found");
     return;
@@ -150,9 +150,7 @@ firForm.addEventListener("submit", async (e) => {
   /* Generate hash */
   const hash = await sha256(JSON.stringify({ firId, ...firData }));
 
-  /* --------------------------------------------------
-     SAVE TO FIRESTORE
-  -------------------------------------------------- */
+  /*SAVE TO FIRESTORE*/
   try {
     await setDoc(doc(db, "firs", firId), {//storing the FIR in firestore
       firId,

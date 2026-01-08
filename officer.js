@@ -24,11 +24,23 @@ async function sha256(text) {
 }
 
 /*AUTH CHECK (OFFICER ONLY)*/
-onAuthStateChanged(auth, (user) => {//arrow function to check authentication state
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    alert("Unauthorized access");
-    window.location.href = "login.html";//redirect to login if not authenticated
+    alert("Please login first");
+    window.location.href = "login.html";
+    return;
   }
+
+  // Check if user is in officers list
+  const officerRef = doc(db, "officers", user.email);
+  const officerSnap = await getDoc(officerRef);
+
+  if (!officerSnap.exists()) {
+    alert("Access denied: Officers only");
+    window.location.href = "home.html"; // or login.html
+    return;
+  }
+
 });
 
 /*UPDATE FIR (BLOCKCHAIN STYLE)*/
@@ -58,9 +70,9 @@ window.updateFIR = async function () {//global function to update FIR
 
     /*Fetch FIR (HEAD BLOCK)*/
     const firRef = doc(db, "firs", firId);//refrence to the FIR in firestore database
-    const firSnap = await getDoc(firRef);
+    const firSnap = await getDoc(firRef);//getting the FIR document
 
-    if (!firSnap.exists()) {
+    if (!firSnap.exists()) {//checking if FIR exists or not
       alert("FIR not found");
       return;
     }
@@ -88,7 +100,7 @@ window.updateFIR = async function () {//global function to update FIR
 
     const updateId = `${firId}_BLOCK_${blockNumber}`;//generating a unique id for the update block
 
-    await setDoc(doc(db, "fir_updates", updateId), {//storing the update block in firestore
+    await setDoc(doc(db, "fir_updates", updateId), {//storing the updated block in firestore
       firId,
       blockNumber,
       updateData,

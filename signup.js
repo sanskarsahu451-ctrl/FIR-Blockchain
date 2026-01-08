@@ -10,7 +10,7 @@ signupForm.addEventListener('submit', (e) => {
     const username = signupForm['username'].value;
     const password = signupForm['password'].value;
 
-    createUserWithEmailAndPassword(auth, username, password)
+    createUserWithEmailAndPassword(auth, username, password)//using firebase function we can create user with email and password
 		  .then((userCredential) => {
 		    // Signed in 
 		    const user = userCredential.user;
