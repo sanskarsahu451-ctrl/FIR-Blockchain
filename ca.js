@@ -45,3 +45,101 @@ async function loadCrimeLocations() {
     console.error("Error loading FIRs:", err);
   }
 }
+
+/* ===============================
+   FETCH + PROCESS FIR DATA
+================================ */
+async function fetchFIRData() {
+  const querySnapshot = await getDocs(collection(db, "firs"));
+  const crimeCount = {};
+
+  querySnapshot.forEach((docSnap) => {
+    const fir = docSnap.data();
+
+    // 🔑 CORRECT PATH (this fixed everything)
+    const crime = fir.data?.crime?.trim();
+
+    if (!crime) return;
+
+    crimeCount[crime] = (crimeCount[crime] || 0) + 1;
+  });
+
+  console.log("Processed Data:", crimeCount);
+  return crimeCount;
+}
+
+/*RENDER CHART*/
+
+// COLOR MAP
+const CRIME_COLORS = {
+  murder: "#7f1d1d",
+  injury: "#dc2626",
+  sexual: "#be185d",
+  kidnapping: "#9d174d",
+
+  theft: "#2563eb",
+  trust: "#16a34a",
+  trespass: "#0284c7",
+
+  treason: "#7c2d12",
+  public: "#f59e0b",
+
+  drugs: "#9333ea",
+  weapons: "#6d28d9",
+  abetment: "#4b5563",
+
+  default: "#64748b"
+};
+
+// ===============================
+// RENDER CHART
+// ===============================
+async function renderCrimeChart() {
+  const crimeCount = await fetchFIRData();
+
+  const labels = Object.keys(crimeCount);
+  const values = Object.values(crimeCount);
+
+  // 🔑 backgroundColors MUST be created AFTER crimeCount exists
+  const backgroundColors = labels.map(
+    crime => CRIME_COLORS[crime] || CRIME_COLORS.default
+  );
+
+  const ctx = document
+    .getElementById("crimeChart")
+    .getContext("2d");
+
+  new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Number of FIRs",
+        data: values,
+        backgroundColor: backgroundColors,
+        borderRadius: 6,
+        barThickness: 30
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+}
+
+// ✅ Correct function call
+renderCrimeChart();
