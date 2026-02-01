@@ -103,9 +103,7 @@ document
 // Initialize map after page load
 window.addEventListener("load", initMap);
 
-/* --------------------------------------------------
-   SUBMIT EVENT
--------------------------------------------------- */
+/*SUBMIT EVENT*/
 firForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 

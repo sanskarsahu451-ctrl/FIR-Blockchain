@@ -30,7 +30,7 @@ window.trackFIR = async function () {
     return;
   }
 
- // Fetch FIR (current state)
+  // Fetch FIR (current state)
   const firRef = doc(db, "firs", firIdInput);
   const firSnap = await getDoc(firRef);
 
@@ -42,32 +42,55 @@ window.trackFIR = async function () {
   const firDoc = firSnap.data();
   const data = firDoc.data;
 
-  // Default values (in case no updates yet)
+  // Default values
   let latestOfficer = "Not assigned";
   let latestRemarks = "No remarks yet";
+  let updateStatus = "No updates yet";
+  let lastUpdated = "N/A";
+  let updatedBy = "N/A";
 
-  // Fetch blockchain history
+  // Fetch FIR updates (blockchain history)
   const q = query(
     collection(db, "fir_updates"),
     where("firId", "==", firIdInput),
     orderBy("blockNumber", "desc")
   );
 
-  const updatesSnap = await getDocs(q);//getting all the documents matching the query
+  const updatesSnap = await getDocs(q);
 
   if (!updatesSnap.empty) {
     const latestBlock = updatesSnap.docs[0].data();
-    latestOfficer = latestBlock.updateData?.assignedOfficer || latestOfficer;
-    latestRemarks = latestBlock.updateData?.remarks || latestRemarks;
+
+    latestOfficer =
+      latestBlock.updateData?.assignedOfficer || latestOfficer;
+
+    latestRemarks =
+      latestBlock.updateData?.remarks || latestRemarks;
+
+    updateStatus = "Updated";
+
+    // ✅ FIX: use createdAt (not timestamp)
+    if (latestBlock.createdAt) {
+      lastUpdated = latestBlock.createdAt
+        .toDate()
+        .toLocaleString();
+    }
+
+    // ✅ Updated by (email)
+    updatedBy =
+      latestBlock.updateData?.updatedByEmail || "Unknown";
   }
 
-  /* 🔹 Fill dynamic data (KEEPING YOUR UI SAME) */
+  /* 🔹 Fill UI */
   document.getElementById("firId").innerText = firIdInput;
-  document.getElementById("status").innerText = firDoc.status; 
+  document.getElementById("status").innerText = firDoc.status;
   document.getElementById("officer").innerText = latestOfficer;
   document.getElementById("remarks").innerText = latestRemarks;
   document.getElementById("location").innerText = data.location;
+  document.getElementById("updateStatus").innerText = updateStatus;
+  document.getElementById("lastUpdated").innerText = lastUpdated;
+  document.getElementById("updatedBy").innerText = updatedBy;
 
   /* 🔹 Show the card */
-  document.getElementById("firCard").classList.remove("hidden");//removes hidden class to display the card
+  document.getElementById("firCard").classList.remove("hidden");
 };

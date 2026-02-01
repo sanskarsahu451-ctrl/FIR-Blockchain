@@ -142,7 +142,7 @@ nav a:hover{
 
 #logout{
     display:flex;
-    text-align: centre;
+    text-align: center;
     width: 75px;
     padding: 10px;
     background-color: #c1a60f;

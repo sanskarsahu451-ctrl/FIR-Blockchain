@@ -80,4 +80,4 @@ import { signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth
 			  console.log('An error happened.');
 			});		  		  
 	});
-	  //----- End
+	//End
