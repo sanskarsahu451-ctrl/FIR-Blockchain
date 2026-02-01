@@ -24,4 +24,9 @@
 | Maps | Leaflet.js |
 | Charts | Chart.js |
 
+## LICENSE
+The project is licensed under GNU Affero v3.0.
+Kindly keep a note of that before stealing.
+
 *Author: Sanskar Sahu*
+:)
