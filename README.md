@@ -15,6 +15,22 @@
 - Data analytics- Crime analytics for a particular region can be shown using charts and heatmaps to raise awareness.  
 - Search feature-Users can search for easily search for reports in multiple police stations.
 
+## Project Structures
+
+frontend/
+  ├── assets/     → CSS, images
+  ├── js/         → Page logic
+  ├── *.html      → Application pages
+
+## Screenshots
+
+![Home1](./docs/screenshots/Home-page-part1.png)
+![Home2](./docs/screenshots/Home-page-part2.png)
+![RegisterComplaint](./docs/screenshots/Register-complaint.png)
+![UpdateFIR](./docs/screenshots/Update-FIR-page.png)
+![CrimeStatistics](./docs/screenshots/Crime-statistics-page.png)
+
+
 ## Tech Stack
 | Layer | Tech |
 |-------|------|
