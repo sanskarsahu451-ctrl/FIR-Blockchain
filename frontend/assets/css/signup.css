@@ -90,3 +90,33 @@ nav a:hover{
     cursor: pointer;
     color:#fff;
 }
+
+.breaker{
+    align-items: center;
+    border-bottom: 1px solid #DADDE1;
+    display: flex;
+    margin: 20px 16px;
+    text-align: center;
+}
+
+.metamask button {
+  width: 270px;
+  padding: 10px;
+  background-color: #c1a60f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.metamask button:hover {
+  background-color: #000000;
+  color: #c1a60f;
+}
+.metamask {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}

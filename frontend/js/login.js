@@ -1,6 +1,13 @@
 import { auth } from './firebaseconfig.js';
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 import { signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+import { db } from "./firebaseconfig.js";
+
 
 //----- Login code start	  
 
@@ -34,37 +41,54 @@ import { signOut } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth
 	  //----- End of Login code
 
 	  /** Js code to login with Metamask */
-	  document.getElementById("metamaskLogin").addEventListener("click", loginWithMetaMask);//event listener for button click
+	  document
+  .getElementById("metamaskLogin")
+  .addEventListener("click", loginWithMetaMask);
 
-	async function loginWithMetaMask() {//async function to check metamask and get wallet address
-      if (!window.ethereum) {
+async function loginWithMetaMask() {
+  try {
+    if (!window.ethereum) {
       alert("MetaMask not installed");
       return;
     }
 
+    // 1️⃣ Get wallet
     const accounts = await ethereum.request({
-     method: "eth_requestAccounts"
-     });
-
+      method: "eth_requestAccounts"
+    });
     const walletAddress = accounts[0];
 
+    // 2️⃣ Sign login message
     const message = `Login to FIR Portal at ${new Date().toISOString()}`;
-
     const signature = await ethereum.request({
-    method: "personal_sign",
-    params: [message, walletAddress]
-  });
+      method: "personal_sign",
+      params: [message, walletAddress]
+    });
 
-  // Store proof in Firestore
-  await setDoc(doc(db, "walletUsers", walletAddress), {
-    wallet: walletAddress,
-    signature,
-    message,
-    linkedAt: serverTimestamp()
-  });
+    // 3️⃣ Check Firestore for existing user
+    const userRef = doc(db, "users", walletAddress);
+    const userSnap = await getDoc(userRef);
 
-  alert("MetaMask verified successfully");
+    if (!userSnap.exists()) {
+      alert("Wallet not registered. Please sign up first.");
+      return;
+    }
+
+    // 4️⃣ Login success
+    alert("MetaMask login successful!");
+
+    // Optional: store session locally
+    localStorage.setItem("walletAddress", walletAddress);
+
+    // Redirect
+    window.location.href = "home.html";
+
+  } catch (err) {
+    console.error(err);
+    alert("MetaMask login failed");
+  }
 }
+
 
 
 
