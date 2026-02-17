@@ -69,14 +69,12 @@ window.trackFIR = async function () {
 
     updateStatus = "Updated";
 
-    // ✅ FIX: use createdAt (not timestamp)
     if (latestBlock.createdAt) {
       lastUpdated = latestBlock.createdAt
         .toDate()
         .toLocaleString();
     }
 
-    // ✅ Updated by (email)
     updatedBy =
       latestBlock.updateData?.updatedByEmail || "Unknown";
   }

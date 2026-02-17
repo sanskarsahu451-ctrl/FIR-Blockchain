@@ -39,9 +39,7 @@ if (!firForm) {
   console.error("FIR form not found. Check form ID.");
 }
 
-/* --------------------------------------------------
-   OPENSTREETMAP + LEAFLET (REPLACES GOOGLE MAPS)
--------------------------------------------------- */
+/* OPENSTREETMAP + LEAFLET (REPLACES GOOGLE MAPS) */
 let map, marker;
 
 // Initialize map

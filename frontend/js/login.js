@@ -52,20 +52,20 @@ async function loginWithMetaMask() {
       return;
     }
 
-    // 1️⃣ Get wallet
+    //  Get wallet
     const accounts = await ethereum.request({
       method: "eth_requestAccounts"
     });
     const walletAddress = accounts[0];
 
-    // 2️⃣ Sign login message
+    //  Sign login message
     const message = `Login to FIR Portal at ${new Date().toISOString()}`;
     const signature = await ethereum.request({
       method: "personal_sign",
       params: [message, walletAddress]
     });
 
-    // 3️⃣ Check Firestore for existing user
+    // Check Firestore for existing user
     const userRef = doc(db, "users", walletAddress);
     const userSnap = await getDoc(userRef);
 
@@ -74,7 +74,7 @@ async function loginWithMetaMask() {
       return;
     }
 
-    // 4️⃣ Login success
+    //  Login success
     alert("MetaMask login successful!");
 
     // Optional: store session locally

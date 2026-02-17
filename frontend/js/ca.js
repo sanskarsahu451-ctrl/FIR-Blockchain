@@ -56,7 +56,7 @@ async function fetchFIRData() {
   querySnapshot.forEach((docSnap) => {
     const fir = docSnap.data();
 
-    // 🔑 CORRECT PATH (this fixed everything)
+    // CORRECT PATH (this fixed everything)
     const crime = fir.data?.crime?.trim();
 
     if (!crime) return;
@@ -141,5 +141,5 @@ async function renderCrimeChart() {
   });
 }
 
-// ✅ Correct function call
+//  Correct function call
 renderCrimeChart();

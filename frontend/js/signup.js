@@ -46,27 +46,26 @@ async function signupWithMetaMask() {
       return;
     }
 
-    // 🔹 Force logout to avoid old Firebase session
-    await signOut(auth);
+    await signOut(auth);// Logging out if already logged in
 
-    // 🔹 Get wallet
+    // Get wallet
     const accounts = await ethereum.request({
       method: "eth_requestAccounts"
     });
     const walletAddress = accounts[0];
 
-    // 🔹 Sign message
+    // Sign message
     const message = `Sign Up to FIR Portal at ${new Date().toISOString()}`;
     const signature = await ethereum.request({
       method: "personal_sign",
       params: [message, walletAddress]
     });
 
-    // 🔹 Check Firestore
+    // Check Firestore
     const userRef = doc(db, "users", walletAddress);
     const userSnap = await getDoc(userRef);
 
-    // 🔹 Create Firebase user ONLY if new wallet
+    // Create Firebase user ONLY if new wallet
     if (!userSnap.exists()) {
       const userCredential = await signInAnonymously(auth);
       const uid = userCredential.user.uid;
